@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <fcntl.h>
+#include<string.h>
 #include <sys/ioctl.h>
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
@@ -38,16 +39,35 @@ static uint16_t delay;
 static void transfer(int fd)
 {
 	int ret;
-	uint8_t tx[] = {
+	int i;
+	char a[100];
+	while(1)
+
+{
+	printf("Enter your message ");
+	scanf("%s",a);
+	//printf("%s",a);
+	int n=strlen(a);
+	uint8_t tx[strlen(a)+1];
+	
+	for(i=0;i<strlen(a);i++)
+	 {tx[i] =a[i];
+	//printf("%d",tx[i]);
+	}
+	tx[i]=10;
+
+	//uint8_t tx[]={104,101,108,108,10};
+/* 
+{
         0x48,0x45, 0x4C, 0x4C, 0x4F,
         0x20, 
         0x57, 0x4F, 0x52, 0x4C, 0x44,
         0x0A 
-	};
-	uint8_t rx[ARRAY_SIZE(tx)] = {0, };
+	};*/
+	//uint8_t rx[ARRAY_SIZE(tx)] = {0, };
 	struct spi_ioc_transfer tr = {
 		.tx_buf = (unsigned long)tx,
-		.rx_buf = (unsigned long)rx,
+		//.rx_buf = (unsigned long)rx,
 		.len = ARRAY_SIZE(tx),
 		.delay_usecs = delay,
 		.speed_hz = speed,
@@ -65,7 +85,10 @@ static void transfer(int fd)
 		printf("%.2X ", rx[ret]);
 	}
 	puts("");
+
+
     */
+}
 }
 
 static void print_usage(const char *prog)
